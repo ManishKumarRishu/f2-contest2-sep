@@ -145,13 +145,93 @@ let headers = ['ID', 'Name', 'Email', 'Gender', 'Class', 'Marks', 'Passing'];
 
 
     
-    const element = document.getElementById("a-z");
-    element.addEventListener("click", start);
-     
+    document.getElementById("a-z").addEventListener("click", () => {
+        const sortedData = students.sort((a, b) =>
+          a.first_name.localeCompare(b.first_name)
+        );
+        displayData(sortedData);
+      });
+      
     
+      document.getElementById("z-a").addEventListener("click", () => {
+        const sortedData = students.sort((b, a) =>
+          a.first_name.localeCompare(b.first_name)
+        );
+        displayData(sortedData);
+      });
+      
     
-    function start() {
-      document.getElementById("a-z").innerHTML = "Sorted By A-Z";
-    }
+      document.getElementById("sort-marks").addEventListener("click", () => {
+        const sortedData = students.slice().sort((a, b) => a.marks - b.marks);
+        displayData(sortedData);
+      });
+      
+    
+      document.getElementById("sort-passing").addEventListener("click", () => {
+        const filteredData = students.filter((students) => students.passing);
+        displayData(filteredData);
+      });
+      
+      
+      document.getElementById("sort-class").addEventListener("click", () => {
+        const sortedData = students.slice().sort((a, b) => a.class - b.class);
+        displayData(sortedData);
+      });
+      
+   
 
+      document.getElementById("sort-gender").addEventListener("click", () => {
+        const maleStudents = student.filter((student) => student.gender === "Male");
+        const femaleStudents = student.filter(
+          (student) => student.gender === "Female"
+        );
+      
+        displayData([...femaleStudents, ...maleStudents]);
+      });
+      
+      
+     
+      
+      const searchInput = document.getElementById("myInput");
+      const searchButton = document.getElementById("btn");
+      
+     
+      searchButton.addEventListener("click", () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const filteredData = students.filter((students) => {
+          const fullname = `${students.first_name.toLowerCase()} ${students.last_name.toLowerCase()}`;
+          return (
+            students.first_name.toLowerCase().includes(searchTerm) ||
+            students.last_name.toLowerCase().includes(searchTerm) ||
+            students.email.toLowerCase().includes(searchTerm) ||
+            fullname.includes(searchTerm)
+          );
+        });
+        displayData(filteredData);
+      });
+      
+      
+    
+      myInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const filteredData = students.filter(
+          (students) =>
+            students.name.toLowerCase().includes(searchTerm) ||
+            
+            students.email.toLowerCase().includes(searchTerm)
+        );
+        if (filteredData.length === 0) {
+          const noRecordRow = document.createElement("tr");
+          const noRecordCell = document.createElement("td");
+          noRecordCell.textContent = "No record found";
+          noRecordCell.classList.add("no-record");
+          noRecordCell.colSpan = 7;
+          noRecordRow.appendChild(noRecordCell);
+          data.innerHTML = "";
+          data.appendChild(noRecordRow);
+        } else {
+          displayData(filteredData);
+        }
+      });
+      
     

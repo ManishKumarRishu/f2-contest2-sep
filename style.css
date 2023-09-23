@@ -27,7 +27,7 @@ h2{
     width:80vw;
     height: 45px;
 }
-.btn{
+#btn{
     background-color: #000000; /* Green */
     border: none;
     color: white;
